@@ -126,10 +126,13 @@ class MatchingViewModel(
                 viewModelScope.launch {
                     val wrong = _uiState.value.wrongAttempts
                     val score = maxOf(0, 100 - wrong * 20)
-                    repo.recordCompletion(categoryIndex, score)
+                    if (grade == 3) repo.recordExercisePlay("match_category_g3")
+                    else repo.recordCompletion(categoryIndex, score)
                 }
             } else if (complete && categoryIndex == null) {
-                viewModelScope.launch { repo.recordExercisePlay("match_random") }
+                viewModelScope.launch {
+                    repo.recordExercisePlay(if (grade == 3) "match_random_g3" else "match_random")
+                }
             }
         } else {
             _uiState.value = state.copy(

@@ -126,9 +126,10 @@ class ListenViewModel(
                 if (nextIndex >= roundWords.size) {
                     val score = (newCorrectCount * 100) / roundWords.size
                     if (categoryIndex != null) {
-                        repo.recordListenCompletion(categoryIndex, score)
+                        if (grade == 3) repo.recordExercisePlay("listen_random_g3")
+                        else repo.recordListenCompletion(categoryIndex, score)
                     } else {
-                        repo.recordExercisePlay("listen_random")
+                        repo.recordExercisePlay(if (grade == 3) "listen_random_g3" else "listen_random")
                     }
                 }
                 loadQuestion(nextIndex)

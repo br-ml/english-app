@@ -120,60 +120,41 @@ fun ProgressScreen(
                 SummaryCard(practiced, total, threeStars)
             }
 
-            // Exercise activity section
+            // Grade 2 exercise activity
             item {
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    "Exercise Activity",
+                    "🏫  2nd grade — exercises",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1A1A2E),
                 )
             }
 
-            items(state.exercises) { ex ->
-                Card(
-                    shape = RoundedCornerShape(14.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFEEEEFF)),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(ex.emoji, fontSize = 26.sp)
-                        Spacer(Modifier.width(12.dp))
-                        Text(
-                            ex.label,
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color(0xFF1A1A2E),
-                            modifier = Modifier.weight(1f),
-                        )
-                        if (ex.timesPlayed > 0) {
-                            Text(
-                                "${ex.timesPlayed}×",
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = Color(0xFF4D96FF),
-                            )
-                        } else {
-                            Text(
-                                "Not played",
-                                fontSize = 12.sp,
-                                color = Color(0xFF999999),
-                            )
-                        }
-                    }
-                }
+            items(state.grade2Exercises) { ex ->
+                ExerciseRow(ex)
+            }
+
+            // Grade 3 exercise activity
+            item {
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    "🆕  3rd grade — exercises",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1A1A2E),
+                )
+            }
+
+            items(state.grade3Exercises) { ex ->
+                ExerciseRow(ex)
             }
 
             // Category breakdown section
             item {
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    "Category Scores",
+                    "🏫  2nd grade — categories",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1A1A2E),
@@ -299,4 +280,43 @@ private fun starsText(stars: Int): String = when (stars) {
     3 -> "★★★"
     2 -> "★★☆"
     else -> "★☆☆"
+}
+
+@Composable
+private fun ExerciseRow(ex: ExerciseStat) {
+    Card(
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEEEEFF)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(ex.emoji, fontSize = 26.sp)
+            Spacer(Modifier.width(12.dp))
+            Text(
+                ex.label,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF1A1A2E),
+                modifier = Modifier.weight(1f),
+            )
+            if (ex.timesPlayed > 0) {
+                Text(
+                    "${ex.timesPlayed}×",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color(0xFF4D96FF),
+                )
+            } else {
+                Text(
+                    "Not played",
+                    fontSize = 12.sp,
+                    color = Color(0xFF999999),
+                )
+            }
+        }
+    }
 }

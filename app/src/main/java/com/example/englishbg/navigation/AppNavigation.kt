@@ -7,6 +7,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.englishbg.ui.category.CategoryPickerScreen
+import com.example.englishbg.ui.grammar.GrammarScreen
+import com.example.englishbg.ui.grammar.ImperativeScreen
+import com.example.englishbg.ui.grammar.LikesScreen
+import com.example.englishbg.ui.grammar.ThereIsAreScreen
 import com.example.englishbg.ui.home.Grade2HomeScreen
 import com.example.englishbg.ui.home.HomeScreen
 import com.example.englishbg.ui.listen.ListenScreen
@@ -49,6 +53,10 @@ sealed class Screen(val route: String) {
         const val ARG_GRADE = "grade"
     }
     object Progress : Screen("progress")
+    object Grammar : Screen("grammar")
+    object ThereIsAre : Screen("there_is_are")
+    object Imperative : Screen("imperative")
+    object Likes : Screen("likes")
 }
 
 @Composable
@@ -59,13 +67,14 @@ fun AppNavigation() {
 
         composable(Screen.Home.route) {
             HomeScreen(
-                onGrade2      = { navController.navigate(Screen.Grade2Home.route) },
-                onGrade3Match = { navController.navigate(Screen.MatchingRandom.createRoute(3)) },
-                onGrade3Listen = { navController.navigate(Screen.ListenRandom.createRoute(3)) },
+                onGrade2         = { navController.navigate(Screen.Grade2Home.route) },
+                onGrade3Grammar  = { navController.navigate(Screen.Grammar.route) },
+                onGrade3Match    = { navController.navigate(Screen.MatchingRandom.createRoute(3)) },
+                onGrade3Listen   = { navController.navigate(Screen.ListenRandom.createRoute(3)) },
                 onGrade3TrueFalse = { navController.navigate(Screen.TrueFalse.createRoute(3)) },
                 onGrade3Unscramble = { navController.navigate(Screen.Unscramble.createRoute(3)) },
                 onGrade3Category = { navController.navigate(Screen.CategoryPicker.createRoute(3)) },
-                onProgress    = { navController.navigate(Screen.Progress.route) },
+                onProgress       = { navController.navigate(Screen.Progress.route) },
             )
         }
 
@@ -145,6 +154,27 @@ fun AppNavigation() {
 
         composable(Screen.Progress.route) {
             ProgressScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Screen.Grammar.route) {
+            GrammarScreen(
+                onThereIsAre = { navController.navigate(Screen.ThereIsAre.route) },
+                onImperative = { navController.navigate(Screen.Imperative.route) },
+                onLikes      = { navController.navigate(Screen.Likes.route) },
+                onBack       = { navController.popBackStack() },
+            )
+        }
+
+        composable(Screen.ThereIsAre.route) {
+            ThereIsAreScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Screen.Imperative.route) {
+            ImperativeScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Screen.Likes.route) {
+            LikesScreen(onBack = { navController.popBackStack() })
         }
     }
 }

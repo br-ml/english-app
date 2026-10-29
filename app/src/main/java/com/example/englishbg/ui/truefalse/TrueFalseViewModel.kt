@@ -93,7 +93,7 @@ class TrueFalseViewModel(
             delay(950L)
             val nextIndex = state.questionIndex + 1
             if (nextIndex >= questions.size) {
-                repo.recordExercisePlay("truefalse")
+                repo.recordExercisePlay(if (grade == 3) "truefalse_g3" else "truefalse")
             }
             loadQuestion(nextIndex)
         }

@@ -91,7 +91,7 @@ class UnscrambleViewModel(
                 delay(if (result == CheckResult.Correct) 900L else 1500L)
                 val nextIndex = state.questionIndex + 1
                 if (nextIndex >= roundWords.size) {
-                    repo.recordExercisePlay("unscramble")
+                    repo.recordExercisePlay(if (grade == 3) "unscramble_g3" else "unscramble")
                 }
                 loadQuestion(nextIndex)
             }

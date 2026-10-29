@@ -327,5 +327,12 @@ val GRADE3_CATEGORIES: List<Category> = listOf(
             WordPair("get up", "ставам"),
         )
     ),
+    Category(
+        name = "Думи 3",
+        words = listOf(
+            WordPair("banana", "банан"),
+            WordPair("cake", "торта"),
+        )
+    ),
 )
 val GRADE3_WORDS: List<WordPair> = GRADE3_CATEGORIES.flatMap { it.words }

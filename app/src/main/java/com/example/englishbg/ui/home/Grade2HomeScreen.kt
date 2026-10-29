@@ -54,7 +54,7 @@ fun Grade2HomeScreen(
         containerColor = Color(0xFFFFF8F0),
         topBar = {
             TopAppBar(
-                title = { Text("2ри клас", fontWeight = FontWeight.Bold) },
+                title = { Text("2nd Grade", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -85,7 +85,7 @@ fun Grade2HomeScreen(
                 contentAlignment = Alignment.Center,
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("🏫 2ри клас", fontSize = 22.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
+                    Text("🏫 2nd Grade", fontSize = 22.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
                     Text(
                         "Choose an exercise!",
                         fontSize = 14.sp,

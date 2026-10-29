@@ -27,6 +27,30 @@ val EXERCISE_EMOJIS = mapOf(
     "unscramble"     to "🔤",
 )
 
+val GRADE3_EXERCISE_KEYS = listOf("match_category_g3", "match_random_g3", "listen_random_g3", "truefalse_g3", "unscramble_g3", "grammar_there_is_are_g3", "grammar_imperative_g3", "grammar_likes_g3")
+
+val GRADE3_EXERCISE_LABELS = mapOf(
+    "match_category_g3"        to "Match by Category",
+    "match_random_g3"          to "Random Match",
+    "listen_random_g3"         to "Listen & Choose",
+    "truefalse_g3"             to "True or False",
+    "unscramble_g3"            to "Unscramble",
+    "grammar_there_is_are_g3"  to "Grammar: There is/are",
+    "grammar_imperative_g3"    to "Grammar: Imperatives",
+    "grammar_likes_g3"         to "Grammar: Likes/Doesn't like",
+)
+
+val GRADE3_EXERCISE_EMOJIS = mapOf(
+    "match_category_g3"        to "🃏",
+    "match_random_g3"          to "🔀",
+    "listen_random_g3"         to "🎧",
+    "truefalse_g3"             to "✅",
+    "unscramble_g3"            to "🔤",
+    "grammar_there_is_are_g3"  to "📝",
+    "grammar_imperative_g3"    to "📝",
+    "grammar_likes_g3"         to "🧡",
+)
+
 data class CategoryStats(
     val timesPlayed: Int = 0,
     val bestScore: Int = 0,
@@ -52,6 +76,12 @@ class ActivityRepository(private val context: Context) {
 
     fun exercisePlaysFlow(): Flow<Map<String, Int>> = context.dataStore.data.map { prefs ->
         EXERCISE_KEYS.associateWith { key ->
+            prefs[intPreferencesKey("ex_$key")] ?: 0
+        }
+    }
+
+    fun exercisePlaysGrade3Flow(): Flow<Map<String, Int>> = context.dataStore.data.map { prefs ->
+        GRADE3_EXERCISE_KEYS.associateWith { key ->
             prefs[intPreferencesKey("ex_$key")] ?: 0
         }
     }

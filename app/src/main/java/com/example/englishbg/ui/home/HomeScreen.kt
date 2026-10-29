@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun HomeScreen(
     onGrade2: () -> Unit,
+    onGrade3Grammar: () -> Unit,
     onGrade3Match: () -> Unit,
     onGrade3Listen: () -> Unit,
     onGrade3TrueFalse: () -> Unit,
@@ -88,7 +89,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    "🆕  3ти клас",
+                    "🆕  3rd Grade",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFF1A1A2E),
@@ -96,6 +97,19 @@ fun HomeScreen(
             }
 
             Spacer(Modifier.height(10.dp))
+
+            // Grammar — top of 3rd grade
+            GradeExerciseCard(
+                emoji = "📝",
+                title = "Grammar",
+                subtitle = "There is / There are",
+                color = Color(0xFFE8F4FD),
+                onClick = onGrade3Grammar,
+                modifier = Modifier.fillMaxWidth(),
+                horizontal = true,
+            )
+
+            Spacer(Modifier.height(12.dp))
 
             // Grade 3 exercises — row 1
             Row(
@@ -166,7 +180,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    "🏫  2ри клас",
+                    "🏫  2nd Grade",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFF1A1A2E),
@@ -177,8 +191,8 @@ fun HomeScreen(
 
             GradeExerciseCard(
                 emoji = "📚",
-                title = "2ри клас",
-                subtitle = "Упражнения за 2ри клас",
+                title = "2nd Grade",
+                subtitle = "2nd grade exercises",
                 color = Color(0xFFFFF0D6),
                 onClick = onGrade2,
                 modifier = Modifier.fillMaxWidth(),
