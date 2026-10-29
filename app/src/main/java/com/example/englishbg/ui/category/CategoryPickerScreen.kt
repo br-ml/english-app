@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.englishbg.data.ALL_CATEGORIES
 import com.example.englishbg.data.CategoryStats
+import com.example.englishbg.data.GRADE3_CATEGORIES
 
 private val categoryEmojis = listOf(
     "🌈", "🔢", "📅", "⛅", "🍂",
@@ -57,11 +58,13 @@ private val cardColors = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryPickerScreen(
+    grade: Int,
     onCategorySelected: (Int) -> Unit,
     onBack: () -> Unit,
     viewModel: CategoryPickerViewModel = viewModel(),
 ) {
     val allStats by viewModel.allStats.collectAsState()
+    val categories = if (grade == 3) GRADE3_CATEGORIES else ALL_CATEGORIES
 
     Scaffold(
         containerColor = Color(0xFFFFF8F0),
@@ -83,10 +86,10 @@ fun CategoryPickerScreen(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.fillMaxSize().padding(padding),
         ) {
-            itemsIndexed(ALL_CATEGORIES) { index, category ->
+            itemsIndexed(categories) { index, category ->
                 val bgColor = cardColors[index % cardColors.size]
                 val emoji = categoryEmojis.getOrElse(index) { "📖" }
-                val stats = allStats[index] ?: CategoryStats()
+                val stats = if (grade == 2) allStats[index] ?: CategoryStats() else CategoryStats()
                 Card(
                     onClick = { onCategorySelected(index) },
                     shape = RoundedCornerShape(18.dp),

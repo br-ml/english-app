@@ -2,9 +2,11 @@ package com.example.englishbg.ui.unscramble
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.englishbg.EnglishApp
 import com.example.englishbg.data.ALL_WORDS
+import com.example.englishbg.data.GRADE3_WORDS
 import com.example.englishbg.data.WordPair
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,11 +29,16 @@ data class UnscrambleUiState(
     val isComplete: Boolean = false,
 )
 
-class UnscrambleViewModel(application: Application) : AndroidViewModel(application) {
+class UnscrambleViewModel(
+    application: Application,
+    savedStateHandle: SavedStateHandle,
+) : AndroidViewModel(application) {
 
     private val repo = (application as EnglishApp).activityRepository
+    private val grade: Int = savedStateHandle.get<Int>("grade") ?: 2
+    private val allWords: List<WordPair> = if (grade == 3) GRADE3_WORDS else ALL_WORDS
     private val total = 5
-    private val suitable = ALL_WORDS.filter { ' ' !in it.english && it.english.length in 3..10 }
+    private val suitable = allWords.filter { ' ' !in it.english && it.english.length in 3..10 }
     private var roundWords = listOf<WordPair>()
 
     private val _uiState = MutableStateFlow(UnscrambleUiState())

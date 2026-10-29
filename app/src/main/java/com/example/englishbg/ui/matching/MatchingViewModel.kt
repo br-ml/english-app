@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.englishbg.EnglishApp
 import com.example.englishbg.data.ALL_CATEGORIES
 import com.example.englishbg.data.ALL_WORDS
+import com.example.englishbg.data.GRADE3_CATEGORIES
+import com.example.englishbg.data.GRADE3_WORDS
 import com.example.englishbg.navigation.Screen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,7 +42,10 @@ class MatchingViewModel(
     savedStateHandle: SavedStateHandle,
 ) : AndroidViewModel(application) {
 
+    private val grade: Int = savedStateHandle.get<Int>("grade") ?: 2
     private val categoryIndex: Int? = savedStateHandle.get<Int>(Screen.MatchingCategory.ARG)
+    private val categories = if (grade == 3) GRADE3_CATEGORIES else ALL_CATEGORIES
+    private val words = if (grade == 3) GRADE3_WORDS else ALL_WORDS
     private val repo = (application as EnglishApp).activityRepository
 
     private val _uiState = MutableStateFlow(MatchingUiState())
@@ -50,9 +55,9 @@ class MatchingViewModel(
 
     fun loadRound() {
         val (words, catName) = when (categoryIndex) {
-            null -> ALL_WORDS.shuffled().take(5) to "Random Words"
+            null -> words.shuffled().take(5) to "Random Words"
             else -> {
-                val cat = ALL_CATEGORIES[categoryIndex]
+                val cat = categories[categoryIndex]
                 cat.words.shuffled().take(minOf(5, cat.words.size)) to cat.name
             }
         }

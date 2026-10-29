@@ -16,12 +16,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,21 +28,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onCategoryMode: () -> Unit,
-    onRandomMode: () -> Unit,
-    onListenMode: () -> Unit,
-    onTrueFalse: () -> Unit,
-    onUnscramble: () -> Unit,
+    onGrade2: () -> Unit,
+    onGrade3Match: () -> Unit,
+    onGrade3Listen: () -> Unit,
+    onGrade3TrueFalse: () -> Unit,
+    onGrade3Unscramble: () -> Unit,
+    onGrade3Category: () -> Unit,
     onProgress: () -> Unit,
-    viewModel: HomeViewModel = viewModel(),
 ) {
-    val progress by viewModel.progress.collectAsState()
-
     Scaffold(containerColor = Color(0xFFFFF8F0)) { padding ->
         Column(
             modifier = Modifier
@@ -79,98 +73,124 @@ fun HomeScreen(
                         textAlign = TextAlign.Center,
                     )
                     Text(
-                        "Choose an exercise!",
+                        "Избери клас!",
                         fontSize = 15.sp,
                         color = Color.White.copy(alpha = 0.9f),
                     )
-                    if (progress.practiced > 0) {
-                        Spacer(Modifier.height(10.dp))
-                        LinearProgressIndicator(
-                            progress = { progress.practiced.toFloat() / progress.total },
-                            modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(4.dp)),
-                            color = Color.White,
-                            trackColor = Color.White.copy(alpha = 0.3f),
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Text(
-                            "${progress.practiced} of ${progress.total} categories · ${progress.threeStars} ★★★",
-                            fontSize = 12.sp,
-                            color = Color.White.copy(alpha = 0.9f),
-                        )
-                    }
                 }
             }
 
             Spacer(Modifier.height(24.dp))
 
-            // Row 1
+            // Grade 3 section label
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    "🆕  3ти клас",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color(0xFF1A1A2E),
+                )
+            }
+
+            Spacer(Modifier.height(10.dp))
+
+            // Grade 3 exercises — row 1
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                ExerciseCard(
-                    emoji = "🃏",
-                    title = "Match",
-                    subtitle = "By category",
-                    color = Color(0xFFD6EAFF),
-                    onClick = onCategoryMode,
-                    modifier = Modifier.weight(1f),
-                )
-                ExerciseCard(
+                GradeExerciseCard(
                     emoji = "🔀",
                     title = "Match",
                     subtitle = "Random words",
                     color = Color(0xFFD6F5E3),
-                    onClick = onRandomMode,
+                    onClick = onGrade3Match,
                     modifier = Modifier.weight(1f),
                 )
-            }
-
-            Spacer(Modifier.height(12.dp))
-
-            // Row 2
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                ExerciseCard(
+                GradeExerciseCard(
                     emoji = "🎧",
                     title = "Listen",
                     subtitle = "Hear & choose",
                     color = Color(0xFFFFEFCC),
-                    onClick = onListenMode,
-                    modifier = Modifier.weight(1f),
-                )
-                ExerciseCard(
-                    emoji = "✅",
-                    title = "True or False",
-                    subtitle = "Right translation?",
-                    color = Color(0xFFFFE4E4),
-                    onClick = onTrueFalse,
+                    onClick = onGrade3Listen,
                     modifier = Modifier.weight(1f),
                 )
             }
 
             Spacer(Modifier.height(12.dp))
 
-            // Row 3 — full width
-            ExerciseCard(
-                emoji = "🔤",
-                title = "Unscramble",
-                subtitle = "Fix the jumbled letters",
-                color = Color(0xFFECDAFF),
-                onClick = onUnscramble,
+            // Grade 3 exercises — row 2
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                GradeExerciseCard(
+                    emoji = "✅",
+                    title = "True or False",
+                    subtitle = "Right translation?",
+                    color = Color(0xFFFFE4E4),
+                    onClick = onGrade3TrueFalse,
+                    modifier = Modifier.weight(1f),
+                )
+                GradeExerciseCard(
+                    emoji = "🔤",
+                    title = "Unscramble",
+                    subtitle = "Fix the letters",
+                    color = Color(0xFFECDAFF),
+                    onClick = onGrade3Unscramble,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            // Grade 3 by category
+            GradeExerciseCard(
+                emoji = "🃏",
+                title = "Match by Category",
+                subtitle = "Choose a category",
+                color = Color(0xFFD6EAFF),
+                onClick = onGrade3Category,
+                modifier = Modifier.fillMaxWidth(),
+                horizontal = true,
+            )
+
+            Spacer(Modifier.height(20.dp))
+
+            // Divider label
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    "🏫  2ри клас",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color(0xFF1A1A2E),
+                )
+            }
+
+            Spacer(Modifier.height(10.dp))
+
+            GradeExerciseCard(
+                emoji = "📚",
+                title = "2ри клас",
+                subtitle = "Упражнения за 2ри клас",
+                color = Color(0xFFFFF0D6),
+                onClick = onGrade2,
                 modifier = Modifier.fillMaxWidth(),
                 horizontal = true,
             )
 
             Spacer(Modifier.height(12.dp))
 
-            // Progress button
-            ExerciseCard(
+            GradeExerciseCard(
                 emoji = "📊",
-                title = "Progress",
-                subtitle = "See how you're doing",
+                title = "Прогрес",
+                subtitle = "Виж резултатите",
                 color = Color(0xFFDFF5E3),
                 onClick = onProgress,
                 modifier = Modifier.fillMaxWidth(),
@@ -184,7 +204,7 @@ fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ExerciseCard(
+internal fun GradeExerciseCard(
     emoji: String,
     title: String,
     subtitle: String,

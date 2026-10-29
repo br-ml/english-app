@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.englishbg.EnglishApp
 import com.example.englishbg.data.ALL_CATEGORIES
 import com.example.englishbg.data.ALL_WORDS
+import com.example.englishbg.data.GRADE3_CATEGORIES
+import com.example.englishbg.data.GRADE3_WORDS
 import com.example.englishbg.data.WordPair
 import com.example.englishbg.navigation.Screen
 import kotlinx.coroutines.delay
@@ -37,6 +39,9 @@ class ListenViewModel(
 ) : AndroidViewModel(application) {
 
     private val categoryIndex: Int? = savedStateHandle.get<Int>(Screen.ListenCategory.ARG)
+    private val grade: Int = savedStateHandle.get<Int>("grade") ?: 2
+    private val categories = if (grade == 3) GRADE3_CATEGORIES else ALL_CATEGORIES
+    private val allWords = if (grade == 3) GRADE3_WORDS else ALL_WORDS
     private val repo = (application as EnglishApp).activityRepository
     private var roundWords: List<WordPair> = emptyList()
     private lateinit var tts: TextToSpeech
@@ -57,9 +62,9 @@ class ListenViewModel(
 
     fun loadRound() {
         val (words, catName) = when (categoryIndex) {
-            null -> ALL_WORDS.shuffled().take(5) to "Listen & Choose"
+            null -> allWords.shuffled().take(5) to "Listen & Choose"
             else -> {
-                val cat = ALL_CATEGORIES[categoryIndex]
+                val cat = categories[categoryIndex]
                 cat.words.shuffled().take(minOf(5, cat.words.size)) to cat.name
             }
         }
@@ -78,7 +83,7 @@ class ListenViewModel(
             return
         }
         val correct = roundWords[index]
-        val distractors = ALL_WORDS
+        val distractors = allWords
             .filter { it.english != correct.english }
             .shuffled()
             .take(3)

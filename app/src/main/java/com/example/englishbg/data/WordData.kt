@@ -300,3 +300,32 @@ val ALL_CATEGORIES: List<Category> = listOf(
 )
 
 val ALL_WORDS: List<WordPair> = ALL_CATEGORIES.flatMap { it.words }
+
+// Grade 2 aliases (same as ALL_*)
+val GRADE2_CATEGORIES = ALL_CATEGORIES
+val GRADE2_WORDS = ALL_WORDS
+
+// Grade 3 words
+val GRADE3_CATEGORIES: List<Category> = listOf(
+    Category(
+        name = "Думи 1",
+        words = listOf(
+            WordPair("answer", "отговор"),
+            WordPair("different", "различен"),
+            WordPair("kind", "добър"),
+            WordPair("famous", "известен"),
+            WordPair("delicious", "вкусен"),
+        )
+    ),
+    Category(
+        name = "Думи 2",
+        words = listOf(
+            WordPair("sky", "небе"),
+            WordPair("pie", "пай"),
+            WordPair("by", "до"),
+            WordPair("walk", "разходка"),
+            WordPair("get up", "ставам"),
+        )
+    ),
+)
+val GRADE3_WORDS: List<WordPair> = GRADE3_CATEGORIES.flatMap { it.words }

@@ -2,9 +2,12 @@ package com.example.englishbg.ui.truefalse
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.englishbg.EnglishApp
 import com.example.englishbg.data.ALL_WORDS
+import com.example.englishbg.data.GRADE3_WORDS
+import com.example.englishbg.data.WordPair
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,10 +32,15 @@ private data class Question(
     val isCorrectPair: Boolean,
 )
 
-class TrueFalseViewModel(application: Application) : AndroidViewModel(application) {
+class TrueFalseViewModel(
+    application: Application,
+    savedStateHandle: SavedStateHandle,
+) : AndroidViewModel(application) {
 
     private val repo = (application as EnglishApp).activityRepository
-    private val total = 10
+    private val grade: Int = savedStateHandle.get<Int>("grade") ?: 2
+    private val wordList: List<WordPair> = if (grade == 3) GRADE3_WORDS else ALL_WORDS
+    private val total = minOf(10, wordList.size)
     private var questions: List<Question> = emptyList()
 
     private val _uiState = MutableStateFlow(TrueFalseUiState())
@@ -41,13 +49,13 @@ class TrueFalseViewModel(application: Application) : AndroidViewModel(applicatio
     init { loadRound() }
 
     fun loadRound() {
-        val words = ALL_WORDS.shuffled().take(total)
+        val words = wordList.shuffled().take(total)
         questions = words.map { pair ->
             val showCorrect = listOf(true, false).random()
             val shownBulgarian = if (showCorrect) {
                 pair.bulgarian
             } else {
-                ALL_WORDS.filter { it.english != pair.english }.random().bulgarian
+                wordList.filter { it.english != pair.english }.random().bulgarian
             }
             Question(pair.english.lowercase(), shownBulgarian, showCorrect)
         }
