@@ -120,24 +120,9 @@ fun ProgressScreen(
                 SummaryCard(practiced, total, threeStars)
             }
 
-            // Grade 2 exercise activity
-            item {
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    "🏫  2nd grade — exercises",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1A1A2E),
-                )
-            }
-
-            items(state.grade2Exercises) { ex ->
-                ExerciseRow(ex)
-            }
-
             // Grade 3 exercise activity
             item {
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(4.dp))
                 Text(
                     "🆕  3rd grade — exercises",
                     fontSize = 16.sp,
@@ -147,6 +132,21 @@ fun ProgressScreen(
             }
 
             items(state.grade3Exercises) { ex ->
+                ExerciseRow(ex)
+            }
+
+            // Grade 2 exercise activity
+            item {
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    "🏫  2nd grade — exercises",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1A1A2E),
+                )
+            }
+
+            items(state.grade2Exercises) { ex ->
                 ExerciseRow(ex)
             }
 

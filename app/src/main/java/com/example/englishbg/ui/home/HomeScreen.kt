@@ -174,6 +174,18 @@ fun HomeScreen(
 
             Spacer(Modifier.height(20.dp))
 
+            GradeExerciseCard(
+                emoji = "📊",
+                title = "Progress",
+                subtitle = "See your results",
+                color = Color(0xFFDFF5E3),
+                onClick = onProgress,
+                modifier = Modifier.fillMaxWidth(),
+                horizontal = true,
+            )
+
+            Spacer(Modifier.height(12.dp))
+
             // Divider label
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -195,18 +207,6 @@ fun HomeScreen(
                 subtitle = "2nd grade exercises",
                 color = Color(0xFFFFF0D6),
                 onClick = onGrade2,
-                modifier = Modifier.fillMaxWidth(),
-                horizontal = true,
-            )
-
-            Spacer(Modifier.height(12.dp))
-
-            GradeExerciseCard(
-                emoji = "📊",
-                title = "Прогрес",
-                subtitle = "Виж резултатите",
-                color = Color(0xFFDFF5E3),
-                onClick = onProgress,
                 modifier = Modifier.fillMaxWidth(),
                 horizontal = true,
             )
